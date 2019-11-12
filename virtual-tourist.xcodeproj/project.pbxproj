@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		9F479B65237AC4AD00CA1378 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F479B64237AC4AD00CA1378 /* AppDelegate.swift */; };
 		9F479B67237AC4AD00CA1378 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F479B66237AC4AD00CA1378 /* SceneDelegate.swift */; };
-		9F479B69237AC4AD00CA1378 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F479B68237AC4AD00CA1378 /* ViewController.swift */; };
+		9F479B69237AC4AD00CA1378 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F479B68237AC4AD00CA1378 /* MapViewController.swift */; };
 		9F479B6C237AC4AD00CA1378 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9F479B6A237AC4AD00CA1378 /* Main.storyboard */; };
 		9F479B6F237AC4AD00CA1378 /* virtual_tourist.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 9F479B6D237AC4AD00CA1378 /* virtual_tourist.xcdatamodeld */; };
 		9F479B71237AC4B500CA1378 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9F479B70237AC4B500CA1378 /* Assets.xcassets */; };
@@ -17,10 +17,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		9F479B61237AC4AD00CA1378 /* virtual-tourist.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "virtual-tourist.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		9F479B61237AC4AD00CA1378 /* Virtual Tourist.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Virtual Tourist.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9F479B64237AC4AD00CA1378 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9F479B66237AC4AD00CA1378 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		9F479B68237AC4AD00CA1378 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		9F479B68237AC4AD00CA1378 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		9F479B6B237AC4AD00CA1378 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		9F479B6E237AC4AD00CA1378 /* virtual_tourist.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = virtual_tourist.xcdatamodel; sourceTree = "<group>"; };
 		9F479B70237AC4B500CA1378 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -50,7 +50,7 @@
 		9F479B62237AC4AD00CA1378 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				9F479B61237AC4AD00CA1378 /* virtual-tourist.app */,
+				9F479B61237AC4AD00CA1378 /* Virtual Tourist.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -60,7 +60,7 @@
 			children = (
 				9F479B64237AC4AD00CA1378 /* AppDelegate.swift */,
 				9F479B66237AC4AD00CA1378 /* SceneDelegate.swift */,
-				9F479B68237AC4AD00CA1378 /* ViewController.swift */,
+				9F479B68237AC4AD00CA1378 /* MapViewController.swift */,
 				9F479B6A237AC4AD00CA1378 /* Main.storyboard */,
 				9F479B70237AC4B500CA1378 /* Assets.xcassets */,
 				9F479B72237AC4B500CA1378 /* LaunchScreen.storyboard */,
@@ -87,7 +87,7 @@
 			);
 			name = "virtual-tourist";
 			productName = "virtual-tourist";
-			productReference = 9F479B61237AC4AD00CA1378 /* virtual-tourist.app */;
+			productReference = 9F479B61237AC4AD00CA1378 /* Virtual Tourist.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -142,7 +142,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9F479B6F237AC4AD00CA1378 /* virtual_tourist.xcdatamodeld in Sources */,
-				9F479B69237AC4AD00CA1378 /* ViewController.swift in Sources */,
+				9F479B69237AC4AD00CA1378 /* MapViewController.swift in Sources */,
 				9F479B65237AC4AD00CA1378 /* AppDelegate.swift in Sources */,
 				9F479B67237AC4AD00CA1378 /* SceneDelegate.swift in Sources */,
 			);
@@ -296,7 +296,7 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.hernandazevedo.virtual-tourist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "Virtual Tourist";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -314,7 +314,7 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.hernandazevedo.virtual-tourist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "Virtual Tourist";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
