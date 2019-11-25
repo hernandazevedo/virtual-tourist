@@ -12,7 +12,7 @@ class MapViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-//        performSegue(withIdentifier: "locationDetailSegue", sender: nil)
+        performSegue(withIdentifier: "locationDetailSegue", sender: nil)
     }
 
 
