@@ -10,6 +10,8 @@ import UIKit
 
 class MapViewController: UIViewController {
 
+    var dataController: DataController!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         performSegue(withIdentifier: "locationDetailSegue", sender: nil)
