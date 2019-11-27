@@ -7,16 +7,135 @@
 //
 
 import UIKit
+import MapKit
+import CoreData
 
-class MapViewController: UIViewController {
+class MapViewController: UIViewController, UIGestureRecognizerDelegate {
 
+    @IBOutlet weak var mapView: MKMapView!
+    @IBOutlet weak var activityIndicatorView: UIActivityIndicatorView!
     var dataController: DataController!
+    var locationFetchedResultController: NSFetchedResultsController<Location>!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        performSegue(withIdentifier: "locationDetailSegue", sender: nil)
+        mapView.delegate = self
+        setupLocationFetchResult()
+        
+        let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleHolddown))
+        longPressGesture.minimumPressDuration = 0.5
+        mapView.addGestureRecognizer(longPressGesture)
+    }
+    
+    @objc func handleHolddown(uiLongPressGestureRecognizer: UILongPressGestureRecognizer) {
+        if uiLongPressGestureRecognizer.state == .ended {
+            let point = uiLongPressGestureRecognizer.location(in: mapView)
+            let coordinate = mapView.convert(point, toCoordinateFrom: mapView)
+
+            addCoordinate(coordinate: coordinate)
+        }
     }
 
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        locationFetchedResultController = nil
+    }
 
+}
+
+extension MapViewController: MKMapViewDelegate {
+    
+    func addCoordinate(coordinate: CLLocationCoordinate2D) {
+        activityIndicatorView.startAnimating()
+        let annotation = MKPointAnnotation()
+        setCoordinateName(coordinate: coordinate) { (location, error) in
+            self.activityIndicatorView.stopAnimating()
+            if let error = error {
+                self.showErrorMessage("Place not found: \(error.localizedDescription)")
+                annotation.coordinate = coordinate
+                annotation.title = "Unknown"
+                self.saveAnnotation(annotation: annotation)
+                self.mapView.addAnnotation(annotation)
+            } else {
+                 annotation.coordinate = coordinate
+                 annotation.title = location
+                 self.saveAnnotation(annotation: annotation)
+                 self.mapView.addAnnotation(annotation)
+            }
+        }
+    }
+    
+    func saveAnnotation(annotation: MKPointAnnotation) {
+        let pin = Pin(context: dataController.viewContext)
+        pin.latitude = annotation.coordinate.latitude
+        pin.longitude = annotation.coordinate.longitude
+        pin.name = annotation.title
+        
+        try? dataController.viewContext.save()
+    }
+    
+    private func setCoordinateName(coordinate: CLLocationCoordinate2D, completion: @escaping (String?, Error?) -> Void) {
+        let location = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
+        CLGeocoder().reverseGeocodeLocation(location) { (placemarks, error) in
+            if let error = error {
+                self.showErrorMessage("Error setting coordinate name: \(error.localizedDescription)")
+                completion(nil, error)
+            } else {
+                if let placemarks = placemarks, let placemark = placemarks.first {
+                    if let locality = placemark.locality {
+                        completion(locality, nil)
+                    }
+                }
+            }
+        }
+    }
+    
+    func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
+        deleteLocations()
+        let location = Location(context: dataController.viewContext)
+        let region = mapView.region
+        location.longitude = region.center.longitude
+        location.latitude = region.center.latitude
+        
+        location.longitudeDelta = region.span.longitudeDelta
+        location.latitudeDelta = region.span.latitudeDelta
+        
+        try? dataController.viewContext.save()
+    }
+    
+    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        performSegue(withIdentifier: "locationDetailSegue", sender: nil)
+    }
+}
+
+extension MapViewController: NSFetchedResultsControllerDelegate {
+
+    func setupLocationFetchResult() {
+        let fetchRequest: NSFetchRequest<Location> = Location.fetchRequest()
+        
+        fetchRequest.sortDescriptors = []
+        
+        locationFetchedResultController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: dataController.viewContext, sectionNameKeyPath: nil, cacheName: nil)
+        locationFetchedResultController.delegate = self
+        do {
+            try locationFetchedResultController.performFetch()
+        } catch {
+            showErrorMessage("Error fetching location: \(error.localizedDescription)")
+        }
+    }
+    
+    func deleteLocations() {
+        let fetchDelete = NSFetchRequest<NSFetchRequestResult>(entityName: "Location")
+        let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchDelete)
+        
+        do {
+            try dataController.viewContext.execute(deleteRequest)
+            try dataController.viewContext.save()
+        } catch {
+            showErrorMessage("Error deleting locations: \(error.localizedDescription)")
+        }
+        
+    }
 }
 

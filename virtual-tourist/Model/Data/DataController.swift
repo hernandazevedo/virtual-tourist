@@ -26,7 +26,7 @@ class DataController {
             guard error == nil else {
                 fatalError(error!.localizedDescription)
             }
-            self.autoSave()
+            self.saveViewContext()
             completion?()
             
         }
@@ -36,7 +36,7 @@ class DataController {
 }
 
 extension DataController {
-    func autoSave(interval: TimeInterval = 30) {
+    func saveViewContext(interval: TimeInterval = 30) {
         print("Saving View Context")
         
         if viewContext.hasChanges {
@@ -44,7 +44,7 @@ extension DataController {
         }
         
         DispatchQueue.main.asyncAfter(deadline: .now() + interval) {
-            self.autoSave(interval: interval)
+            self.saveViewContext(interval: interval)
         }
     }
 }

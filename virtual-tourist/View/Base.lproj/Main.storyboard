@@ -38,6 +38,8 @@
                     </view>
                     <navigationItem key="navigationItem" id="vqB-lh-Iuz"/>
                     <connections>
+                        <outlet property="activityIndicatorView" destination="2K7-oP-Z3X" id="aYV-tW-dA9"/>
+                        <outlet property="mapView" destination="0qk-YI-T68" id="evl-Bz-BNA"/>
                         <segue destination="Thi-PS-VmT" kind="show" identifier="locationDetailSegue" id="udH-Eb-7Xt"/>
                     </connections>
                 </viewController>
