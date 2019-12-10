@@ -9,7 +9,9 @@
 import UIKit
 
 class DetailViewController: UIViewController {
-
+    var pin: Pin!
+    var dataController: DataController!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
     }

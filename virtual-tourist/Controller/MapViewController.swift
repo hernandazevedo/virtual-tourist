@@ -22,7 +22,7 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         super.viewDidLoad()
         mapView.delegate = self
         setupLocationFetchRequest()
-        setCenterMap()
+        configuraCenteredLocation()
         let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleHolddown))
         longPressGesture.minimumPressDuration = 0.5
         mapView.addGestureRecognizer(longPressGesture)
@@ -34,7 +34,7 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         loadSavedAnnotations()
     }
     
-    func setCenterMap() {
+    func configuraCenteredLocation() {
         let center = CLLocationCoordinate2D(latitude: locationFetchedResultController.fetchedObjects?.first?.latitude ?? 30.33182, longitude: locationFetchedResultController.fetchedObjects?.first?.longitude ?? -120.03118)
         let span = MKCoordinateSpan(latitudeDelta: locationFetchedResultController.fetchedObjects?.first?.latitudeDelta ?? 0.02, longitudeDelta: locationFetchedResultController.fetchedObjects?.first?.longitudeDelta ?? 0.02)
         let region = MKCoordinateRegion(center: center, span: span)
@@ -50,11 +50,35 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         }
     }
 
-    
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         locationFetchedResultController = nil
         pinsFetchedResultsController = nil
+    }
+    
+    fileprivate func getSelectedPin() -> Pin? {
+        setupPinFetchResults()
+        if let pins = pinsFetchedResultsController.fetchedObjects {
+            let annotation = mapView.selectedAnnotations[0]
+            guard let indexPath = pins.firstIndex(where: { (pin) -> Bool in
+                pin.latitude == annotation.coordinate.latitude && pin.longitude == annotation.coordinate.longitude
+            }) else {
+                return nil
+            }
+            return pins[indexPath]
+        }
+        return nil
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let detailViewController = segue.destination as? DetailViewController {
+            guard let pin = getSelectedPin() else {
+                showErrorMessage("Error getting selected pin")
+                return
+            }
+            detailViewController.pin = pin
+            detailViewController.dataController = dataController
+        }
     }
 
 }
