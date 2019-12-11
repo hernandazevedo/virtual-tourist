@@ -32,6 +32,13 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
         super.viewWillAppear(animated)
         setupPinFetchResults()
         loadSavedAnnotations()
+        deselectPins()
+    }
+    
+    fileprivate func deselectPins() {
+        if mapView.selectedAnnotations.count > 0 {
+            mapView.deselectAnnotation(mapView.selectedAnnotations[0], animated: true)
+        }
     }
     
     func configuraCenteredLocation() {
@@ -57,7 +64,7 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     fileprivate func getSelectedPin() -> Pin? {
-        setupPinFetchResults()
+//        setupPinFetchResults()
         if let pins = pinsFetchedResultsController.fetchedObjects {
             let annotation = mapView.selectedAnnotations[0]
             guard let indexPath = pins.firstIndex(where: { (pin) -> Bool in
@@ -179,6 +186,14 @@ extension MapViewController: NSFetchedResultsControllerDelegate {
             showErrorMessage("Error fetching pins: \(error.localizedDescription)")
         }
         activityIndicatorView.stopAnimating()
+    }
+    
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        do {
+            try controller.performFetch()
+        } catch {
+            showErrorMessage("The fetch could not be performed: \(error.localizedDescription)")
+        }
     }
     
     func setupLocationFetchRequest() {

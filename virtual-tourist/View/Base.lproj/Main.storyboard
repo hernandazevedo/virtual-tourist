@@ -113,6 +113,11 @@
                         <viewLayoutGuide key="safeArea" id="k1p-B5-MMC"/>
                     </view>
                     <navigationItem key="navigationItem" id="bKp-ZS-p88"/>
+                    <connections>
+                        <outlet property="collectionView" destination="Qm8-Wr-Inz" id="ey8-xF-Hwn"/>
+                        <outlet property="mapView" destination="PkO-oS-afT" id="CrE-hi-BdM"/>
+                        <outlet property="newCollectionBtn" destination="neV-fH-zbt" id="unG-gw-sLK"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iHp-NO-DfU" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
